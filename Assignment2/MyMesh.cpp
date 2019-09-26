@@ -276,15 +276,15 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Init();
 
 	// Replace this with your code
-	for (int i = 0; i < a_nSubdivisions; i++)
+	for (int i = 0; i < a_nSubdivisions; i++)   //create two circles of tris 
 	{
 		float angle = (PI * 2) / a_nSubdivisions;
 		float x = a_fRadius * cos(angle * i);
 		float y = a_fRadius * sin(angle * i);
 		float x2 = a_fRadius * cos(angle * (i + 1));
 		float y2 = a_fRadius * sin(angle * (i + 1));
-		AddTri(vector3(0, 0, -a_fHeight/2), vector3(x2, y2, -a_fHeight/2), vector3(x, y, -a_fHeight/2));
-		AddTri(vector3(0, 0, a_fHeight/2), vector3(x, y, -a_fHeight/2), vector3(x2, y2, -a_fHeight/2));
+		AddTri(vector3(0, 0, -a_fHeight/2), vector3(x2, y2, -a_fHeight/2), vector3(x, y, -a_fHeight/2));  //generate flat circle 
+		AddTri(vector3(0, 0, a_fHeight/2), vector3(x, y, -a_fHeight/2), vector3(x2, y2, -a_fHeight/2));  //generate circle with origin at a height
 	}
 	// -------------------------------
 
@@ -311,7 +311,7 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	// Replace this with your code
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		float angle = (PI * 2) / a_nSubdivisions;
+		float angle = (PI * 2) / a_nSubdivisions;                 //get data for circles and place them on bottom
 		float x = a_fRadius * cos(angle * i);
 		float y = a_fRadius * sin(angle * i);
 		float x2 = a_fRadius * cos(angle * (i + 1));
@@ -321,7 +321,7 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 		AddTri(vector3(0, 0, -a_fHeight/2), vector3(x2, y2, -a_fHeight/2), vector3(x, y, -a_fHeight/2));
 		AddQuad(a, b, vector3(x, y, a_fHeight/2), vector3(x2, y2, a_fHeight/2));
 	}
-	for (int i = 0; i < a_nSubdivisions; i++)
+	for (int i = 0; i < a_nSubdivisions; i++)                  //get data for circle and place on bottom
 	{
 		float angle = (PI * 2) / a_nSubdivisions;
 		float x = a_fRadius * cos(angle * i);
@@ -361,14 +361,14 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	// Replace this with your code
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		float angle = (PI * 2) / a_nSubdivisions;
+		float angle = (PI * 2) / a_nSubdivisions;                            //get circle data for innter circle
 		float x = a_fInnerRadius * cos(angle * i);
 		float y = a_fInnerRadius * sin(angle * i);
 		float x2 = a_fInnerRadius * cos(angle * (i + 1));
 		float y2 = a_fInnerRadius * sin(angle * (i + 1));
-		AddQuad(vector3(x2,y2,-a_fHeight/2), vector3(x, y, -a_fHeight/2), vector3(x2, y2, a_fHeight/2), vector3(x, y, a_fHeight/2));
+		AddQuad(vector3(x2,y2,-a_fHeight/2), vector3(x, y, -a_fHeight/2), vector3(x2, y2, a_fHeight/2), vector3(x, y, a_fHeight/2));    //create quads where edges would be
 
-		float outerX = a_fOuterRadius * cos(angle * i);
+		float outerX = a_fOuterRadius * cos(angle * i);       //get data for outer circle
 		float outerY = a_fOuterRadius * sin(angle * i);
 		float outerX2 = a_fOuterRadius * cos(angle * (i + 1));
 		float outerY2 = a_fOuterRadius * sin(angle * (i + 1));
@@ -484,61 +484,20 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		}
 	}
 
-	for  (int i = 0; i < verticies.size(); i++)
+	for  (int i = 0; i < verticies.size(); i++)   //normalize every vertex
 	{
 		float normalizedVector = sqrt((verticies[i].x * verticies[i].x) + (verticies[i].y * verticies[i].y) + (verticies[i].z * verticies[i].z));
 		verticies[i] = (verticies[i] / normalizedVector) * a_fRadius;
 	}
 
-	for (int i = 0; i < verticies.size(); i+=4)
+	for (int i = 0; i < verticies.size(); i+=4)  //render sphere
 	{
 		AddQuad(verticies[i], verticies[i + 1], verticies[i + 2], verticies[i + 3]);
 	}
 
 
 
-	// Replace this with your code
-
-	//for (int i = 0; i < a_nSubdivisions; i++) 
-	//{
-	//	float angle = (PI * 2) / a_nSubdivisions;
-
-	//	vector3 centerPoint = vector3(0,0,0);
-	//	
-	//	
-	//	float bottomX = (a_fRadius / 2)  * cos(angle * i);
-	//	float bottomY = (a_fRadius / 2) * sin(angle * i);
-	//	float bottomX2 = (a_fRadius / 2) * cos(angle * (i + 1));
-	//	float bottomY2 = (a_fRadius / 2) * sin(angle * (i + 1));
-
-	//	float middleX = (a_fRadius / 1.3) * cos(angle * i);
-	//	float middleY = (a_fRadius / 1.3) * sin(angle * i);
-	//	float middleX2 = (a_fRadius / 1.3) * cos(angle * (i + 1));
-	//	float middleY2 = (a_fRadius / 1.3) * sin(angle * (i + 1));
-
-
-	//	float x = (a_fRadius) * cos(angle * i);
-	//	float y = (a_fRadius) * sin(angle * i);
-	//	float x2 = (a_fRadius) * cos(angle * (i + 1));
-	//	float y2 = (a_fRadius) * sin(angle * (i + 1));
-
-	//	AddTri(vector3(0, 0, -1.0f / 2), vector3(bottomX2, bottomY2, -0.4f), vector3(bottomX, bottomY, -0.4f));
-	//	AddTri(vector3(0, 0, 1.0f / 2), vector3(bottomX, bottomY, 0.4f), vector3(bottomX2, bottomY2, 0.4f));
-	//	//AddTri(vector3(0, 0, -x), vector3(bottomX2, bottomY2, - + 0.2f), vector3(bottomX, bottomY, -x + 0.2f));
-	//	//AddTri(vector3(0, 0, x), vector3(bottomX, bottomY, x - 0.2f), vector3(bottomX2, bottomY2, x - 0.2f));
-	//	
-
-	//	AddTri(vector3(0, 0, -0.225f), vector3(middleX2, middleY2, -0.225f), vector3(middleX, middleY, -0.225f));
-	//	AddTri(vector3(0, 0, 0.255f), vector3(middleX, middleY, 0.225f), vector3(middleX2, middleY2, 0.225f));
-
-	//	AddTri(vector3(0, 0, 0), vector3(x, y, 0), vector3(x2, y2, 0));
-
-	//	AddQuad(vector3(bottomX, bottomY, -0.4f), vector3(bottomX2, bottomY2, -0.4f), vector3(middleX, middleY, -0.225f), vector3(middleX2, middleY2, -0.225f));
-	//	AddQuad(vector3(bottomX2, bottomY2, 0.4f), vector3(bottomX, bottomY, 0.4f), vector3(middleX2, middleY2, 0.225f), vector3(middleX, middleY, 0.225f));
-	//	AddQuad(vector3(middleX, middleY, -0.225f), vector3(middleX2, middleY2, -0.225f), vector3(x, y, 0.0f), vector3(x2, y2, 0.0f));
-	//	AddQuad(vector3(middleX2, middleY2, 0.225f), vector3(middleX, middleY, 0.225f), vector3(x2, y2, 0.0f), vector3(x, y, 0.0f));
-
-	//}
+	
 	
 	// -------------------------------
 
