@@ -20,6 +20,9 @@ class Application
 	MyMesh* m_pMesh = nullptr;
 	String m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
 
+	quaternion orientation; 
+	 
+
 private:
 	static ImGuiObject gui; //GUI object
 
